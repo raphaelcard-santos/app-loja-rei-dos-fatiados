@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required # Importar jwt_required
 from src.models.compra import Compra, db
 from src.models.cliente import Cliente # Para verificar se o cliente existe
 import datetime
@@ -8,6 +9,7 @@ from decimal import Decimal # Para precisão monetária
 compra_bp = Blueprint("compra_bp", __name__, url_prefix=	"/compras")
 
 @compra_bp.route("/cliente/<int:cliente_id>", methods=["POST"])
+@jwt_required() # Proteger rota
 def criar_compra(cliente_id):
     cliente = Cliente.query.get_or_404(cliente_id)
     dados = request.get_json()
@@ -34,6 +36,7 @@ def criar_compra(cliente_id):
     return jsonify({"mensagem": "Compra registrada com sucesso!", "id": nova_compra.id}), 201
 
 @compra_bp.route("/cliente/<int:cliente_id>", methods=["GET"])
+@jwt_required() # Proteger rota
 def listar_compras_cliente(cliente_id):
     Cliente.query.get_or_404(cliente_id) # Garante que o cliente existe
     compras = Compra.query.filter_by(cliente_id=cliente_id).order_by(Compra.data_compra.desc()).all()
@@ -51,6 +54,7 @@ def listar_compras_cliente(cliente_id):
     } for c in compras])
 
 @compra_bp.route("/<int:compra_id>", methods=["GET"])
+@jwt_required() # Proteger rota
 def detalhar_compra(compra_id):
     compra = Compra.query.get_or_404(compra_id)
     return jsonify({
@@ -68,6 +72,7 @@ def detalhar_compra(compra_id):
     })
 
 @compra_bp.route("/<int:compra_id>/pagar", methods=["POST"])
+@jwt_required() # Proteger rota
 def registrar_pagamento(compra_id):
     compra = Compra.query.get_or_404(compra_id)
     dados = request.get_json()
@@ -99,6 +104,7 @@ def registrar_pagamento(compra_id):
     })
 
 @compra_bp.route("/<int:compra_id>", methods=["PUT"])
+@jwt_required() # Proteger rota
 def atualizar_compra(compra_id):
     compra = Compra.query.get_or_404(compra_id)
     dados = request.get_json()
@@ -138,6 +144,7 @@ def atualizar_compra(compra_id):
     })
 
 @compra_bp.route("/<int:compra_id>", methods=["DELETE"])
+@jwt_required() # Proteger rota
 def deletar_compra(compra_id):
     compra = Compra.query.get_or_404(compra_id)
     if compra.encerrada:
@@ -151,6 +158,7 @@ def deletar_compra(compra_id):
 
 
 @compra_bp.route("/fechamento_mensal", methods=["POST"])
+@jwt_required() # Proteger rota
 def fechamento_mensal():
     dados = request.get_json()
     mes = dados.get("mes")
