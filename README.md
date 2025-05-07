@@ -125,7 +125,7 @@ A aplicação expõe os seguintes endpoints:
 
 - Este é um backend de API. Não há interface gráfica de usuário (frontend) incluída neste projeto. Você pode usar ferramentas como Postman, Insomnia ou curl para interagir com a API.
 - A logo da loja não foi integrada, pois este é um serviço de backend. A logo seria utilizada em um frontend ou em relatórios gerados.
-- O token do GitHub fornecido anteriormente (`Bekvi3-sexmez-bewqed`) era inválido. O repositório foi criado com o novo token fornecido (`ghp_Rp14...`).
+- O token do GitHub fornecido anteriormente (`B`) era inválido. O repositório foi criado com o novo token fornecido (`ghp_Rp14...`).
 
 ## Próximos Passos Sugeridos
 
